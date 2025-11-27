@@ -14,19 +14,20 @@ class Background {
     int cloudsY[CLOUD_COUNT];
 
   public:
-    // Constructor: default white background
+    // Setting default value of the object from constructor
     Background(int bgColor = WHITE);
 
     // Draw the background
-    void draw(int OFFSET_Y = 0);
+    void drawBackground(int OFFSET_Y = 0);
 
     // Change background color dynamically
     void setColor(int bgColor);
 
+    // Get the set background color
+    int getColor() const;
+
     // Optional: Move clouds for animation
     void updateClouds(int speed = 1);
-
-    int getColor() const { return color; }
 };
 
 #endif

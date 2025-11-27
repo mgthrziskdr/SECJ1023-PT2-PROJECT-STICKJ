@@ -23,7 +23,7 @@ int Ground::getY() const { return yPosition; }
 int Ground::getWidth() const { return width; }
 int Ground::getHeight() const { return height; }
 
-void Ground::draw() {
+void Ground::drawGround() {
   // Base sand color
   setfillstyle(SOLID_FILL, color);
   bar(xPosition, yPosition, xPosition + width, yPosition + height);

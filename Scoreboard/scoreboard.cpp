@@ -1,35 +1,40 @@
-#include "score.h"
+#include "scoreboard.h"
 #include <graphics.h>
 #include <string>
 #include <sstream>
 
-Score::Score()
+// Default constructor
+Scoreboard::Scoreboard()
 {
   currentScore = 0;
 }
 
-void Score::addObstacleScore()
+// Add +5 to the score when avoid obstacles
+void Scoreboard::addObstacleScore()
 {
   currentScore += 5;
 }
 
-void Score::addGuardScore()
+// Add +10 to the score when avoid guards
+void Scoreboard::addGuardScore()
 {
   currentScore += 10;
 }
 
-void Score::reset()
+// Resets the scorebord
+void Scoreboard::reset()
 {
   currentScore = 0;
 }
 
-int Score::getScore() const
+// Return the current score
+int Scoreboard::getScore() const
 {
   return currentScore;
 }
 
 // Draw the score at top-right corner but accepts only variables input
-void Score::draw(int bgColor, int txtColor) const
+void Scoreboard::drawScoreboard(int bgColor, int txtColor) const
 {
   // Draw at top-right corner
   settextstyle(GOTHIC_FONT, HORIZ_DIR, 2);
@@ -41,7 +46,7 @@ void Score::draw(int bgColor, int txtColor) const
 }
 
 // Draw the score at top-right corner but accepts only class-object and a variable input
-void Score::draw(const Background &bg, int txtColor) const
+void Scoreboard::drawScoreboard(const Background &bg, int txtColor) const
 {
   // Draw at top-right corner
   settextstyle(GOTHIC_FONT, HORIZ_DIR, 2);
