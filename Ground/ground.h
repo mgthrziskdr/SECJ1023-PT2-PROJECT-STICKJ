@@ -17,9 +17,11 @@ class Ground {
     std::vector<int> grainY;
 
   public:
+    // Setting default value of the object from constructor
     Ground(int xPos, int yPos, int w, int h, int col = DARKGRAY);
 
-    void draw();
+    // Draw the game ground
+    void drawGround();
 
     // Getters for collision
     int getX() const;

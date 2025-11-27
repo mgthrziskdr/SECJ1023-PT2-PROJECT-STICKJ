@@ -13,8 +13,8 @@
 #include "Ground/ground.h"
 #include "Character/Player/player.h"
 #include "Character/Guard/guard.h"
-#include "Obstacle/Obstacle.h"
-#include "Score/Score.h"
+#include "Obstacle/obstacle.h"
+#include "Scoreboard/scoreboard.h"
 
 #define DEFAULT_BG_COLOR COLOR(70, 180, 255)
 
@@ -32,6 +32,7 @@ int main()
 
   int page = 0;
 
+  // Enable/Disable background music
   bool backgroundMusicEnabled = false;
 
   if (backgroundMusicEnabled)
@@ -43,7 +44,7 @@ int main()
   // Game config
   bool isGameOver = false;
 
-  Score score;
+  Scoreboard score;
 
   // Sky background
   Background bg(COLOR(70, 180, 255));
@@ -144,14 +145,14 @@ int main()
 
   while (true)
   {
-    // --- DELTA TIME ---
+    // --- Delta Time ---
     DWORD currentTime = GetTickCount();
     deltaTime = (currentTime - lastTime) / 1000.0f;
     lastTime = currentTime;
     if (deltaTime > 0.05f)
       deltaTime = 0.05f;
 
-    // --- DOUBLE BUFFERING ---
+    // --- Double Buffering ---
     setactivepage(page);
     setvisualpage(1 - page);
     cleardevice();
@@ -166,7 +167,7 @@ int main()
       }
 
       // Draw background
-      bg.draw();
+      bg.drawBackground();
 
       // Draw "GAME OVER" text
       settextstyle(DEFAULT_FONT, HORIZ_DIR, 5);
@@ -225,17 +226,17 @@ int main()
       continue;
     }
 
-    // --- GAME LOGIC WHEN NOT GAME OVER ---
+    // --- Game Logic When Not Game Over ---
     // --- Draw background & ground ---
     bg.updateClouds(1);
-    bg.draw();
-    ground.draw();
+    bg.drawBackground();
+    ground.drawGround();
 
     // --- Draw obstacles ---
     for (int i = 0; i < numObstacles; i++)
-      obstacles[i].draw(cameraX);
+      obstacles[i].drawObstacle(cameraX);
 
-    // --- PLAYER INPUT ---
+    // --- Player Input ---
     bool left = GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A');
     bool right = GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState('D');
     bool up = GetAsyncKeyState(VK_UP) || GetAsyncKeyState(VK_SPACE) || GetAsyncKeyState('W');
@@ -294,7 +295,7 @@ int main()
       }
     }
 
-    // --- CAMERA SMOOTH FOLLOW ---
+    // --- Camera Smooth Follow ---
     float targetCamX = stickJ.getX() - screenCenter;
     cameraX += (targetCamX - cameraX) * (cameraSmooth * (deltaTime * 60));
 
@@ -303,7 +304,7 @@ int main()
     if (cameraX > worldWidth - screenWidth)
       cameraX = worldWidth - screenWidth;
 
-    // --- DRAW PLAYER ---
+    // --- Draw Player ---
     int playerScreenX = stickJ.getX() - cameraX;
     int playerScreenY = stickJ.getY();
     setfillstyle(SOLID_FILL, YELLOW);
@@ -311,7 +312,7 @@ int main()
         playerScreenX + stickJ.getWidth(),
         playerScreenY + stickJ.getHeight());
 
-    // --- DRAW GUARDS ---
+    // --- Draw Guards ---
     for (int i = 0; i < numGuards; i++)
     {
       int guardScreenX = guards[i].getX() - cameraX;
@@ -325,10 +326,10 @@ int main()
           guardScreenY + guards[i].getHeight());
     }
 
-    // --- DRAW SCORE ---
-    score.draw(bg, BLACK);
+    // --- Draw Scoreboard ---
+    score.drawScoreboard(bg, BLACK);
 
-    // --- SWAP BUFFERS ---
+    // --- Swap Buffers ---
     page = 1 - page;
 
     // --- Small delay for stability ---
@@ -339,7 +340,7 @@ int main()
   return 0;
 }
 
-// --- START SCREEN ---
+// --- Star Screen ---
 void drawStartScreen(int screenWidth, int screenHeight)
 {
   setfillstyle(SOLID_FILL, COLOR(70, 180, 255)); // sky color

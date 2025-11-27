@@ -15,6 +15,7 @@ class Character {
     // image sprite;
 
   public:
+    // Setting default value of the object from constructor
     Character(int x, int y, float spd = 0.6, int w = 20, int h = 40);
 
     virtual void updatePosition();

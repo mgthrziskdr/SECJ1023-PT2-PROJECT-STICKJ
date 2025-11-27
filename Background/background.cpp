@@ -1,5 +1,6 @@
 #include "background.h"
 #include <graphics.h>
+
 // Constructor
 Background::Background(int bgColor) : color(bgColor)
 {
@@ -12,7 +13,7 @@ Background::Background(int bgColor) : color(bgColor)
 }
 
 // Draw background + clouds
-void Background::draw(int OFFSET_Y)
+void Background::drawBackground(int OFFSET_Y)
 {
   // Fill the whole screen
   setfillstyle(SOLID_FILL, color);
@@ -25,7 +26,7 @@ void Background::draw(int OFFSET_Y)
     int cx = cloudsX[i];
     int cy = cloudsY[i] + OFFSET_Y;
 
-    // Your cloud drawing shape
+    // Cloud drawing shape
     bar(cx, cy, cx + 60, cy + 20);
     bar(cx + 20, cy - 8, cx + 80, cy + 12);
   }
@@ -36,6 +37,9 @@ void Background::setColor(int bgColor)
 {
   color = bgColor;
 }
+
+// Returning the background color
+int Background::getColor() const { return color; }
 
 // Move clouds slowly for animation
 void Background::updateClouds(int speed)

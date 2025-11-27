@@ -1,25 +1,27 @@
-#ifndef SCORE_H
-#define SCORE_H
+#ifndef SCOREBOARD_H
+#define SCOREBOARD_H
 
 #include "../Background/background.h"
 
-class Score
+class Scoreboard
 {
   private:
     int currentScore;
 
   public:
-    Score();
+    // Default constructor
+    Scoreboard();
 
     void addObstacleScore(); // +5 points
     void addGuardScore();    // +10 points
     void reset();            // Reset score to 0
 
+    // Return the current score
     int getScore() const;
 
     // Draw score at top-right corner
-    void draw(int bgColor, int txtColor) const;
-    void draw(const Background &bg, int txtColor) const;
+    void drawScoreboard(int bgColor, int txtColor) const;
+    void drawScoreboard(const Background &bg, int txtColor) const;
 };
 
 #endif

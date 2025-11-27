@@ -1,6 +1,7 @@
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
+// Enum representing different possible obstacle shapes
 enum class ObstacleShape
 {
   RECTANGLE,
@@ -19,18 +20,28 @@ class Obstacle
     bool isPassed;
 
   public:
+    // Default constructor
     Obstacle();
+
+    // Setting default value of the object from constructor
     Obstacle(int x, int y, int w, int h, ObstacleShape s = ObstacleShape::RECTANGLE, bool passed = false);
 
+    // Getters for position
     int getX() const;
     int getY() const;
+
+    // Getters for size
     int getWidth() const;
     int getHeight() const;
 
+    // Returns true if the player has already passed this obstacle
     bool getIsPassed() const;
+
+    // Sets whether the obstacle has been passed
     void setIsPassed(bool val);
 
-    void draw(float cameraX) const;
+    // Draws the obstacle on screen, adjusted by camera position
+    void drawObstacle(float cameraX) const;
 };
 
 #endif
