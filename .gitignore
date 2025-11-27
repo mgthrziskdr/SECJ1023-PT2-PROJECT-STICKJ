@@ -39,3 +39,12 @@
 
 # debug information files
 *.dwo
+
+# Folders
+/vs
+/.vs
+/Audio
+
+# Other files
+temp
+temp2

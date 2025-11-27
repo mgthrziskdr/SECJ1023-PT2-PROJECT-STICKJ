@@ -1,0 +1,38 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
+#include "../character.h"
+#include "../../Ground/ground.h"
+#include "../../Obstacle/obstacle.h"
+
+class Player : public Character
+{
+private:
+  bool isJumping;
+  float jumpSpeed; // pixels/sec
+  float gravity;   // pixels/sec^2
+  float velocityX;
+  float velocityY;
+  float acceleration; // How fast player speeds up
+  float maxSpeed;     // Maximum horizontal speed
+  float friction;     // How fast player slows down when idle
+
+public:
+  Player(int x, int y, float spd = 100, int w = 20, int h = 40);
+
+  int setX(int x);
+  int setY(int y);
+
+  void moveLeft(float dt);
+  void moveRight(float dt);
+  void stopMoving(float dt);
+  void resetVelocity();
+  void jump();
+
+  void updatePositionWithGroundDT(const Ground &ground, float dt, int worldWidth, Obstacle *obsList, int obsCount);
+
+  void updatePosition() override {}
+  void drawCharacter() override {}
+};
+
+#endif
