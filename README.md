@@ -11,6 +11,26 @@ This project demonstrates how a basic game can be constructed using only the sta
 
 ---
 
+## 🎨 Game Design 🖼
+
+| ![Stick J - Game Opening](Images/Docs/Design-1.png) |
+|:--:|
+| *Design 1: Game Opening Screen* |
+
+| ![Stick J - Gameplay](Images/Docs/Design-2.png) |
+|:--:|
+| *Design 2: Gameplay Screen* |
+
+| ![Stick J - WIN](Images/Docs/Design-3.png) |
+|:--:|
+| *Design 3: WIN Screen* |
+
+| ![Stick J - GAME OVER](Images/Docs/Design-4.png) |
+|:--:|
+| *Design 4: GAME OVER Screen* |
+
+---
+
 ## 🎮 Game Features
 
 * **Classic platformer movement**
@@ -68,6 +88,21 @@ This project helped explore:
 
 ## 📌 Notes
 
-This project uses the **WinBGIm graphics library**, which is outdated but commonly used in introductory C++ courses. It is recommended to run with **MinGW (32-bit)** and **Code::Blocks** for best compatibility.
+This project uses the **WinBGIm graphics library**, which is outdated but commonly used in introductory C++ courses. It is recommended to run with **MinGW (32-bit)** but it's been upgraded to support **(64-bit)** architecture also **Code::Blocks** for best compatibility.
+
+---
+
+## Setup Requirements
+
+* MinGW (64-bit) Supports: [Link 1](https://github.com/ahmedshakill/WinBGIm-64) (Recommended) or [Link 2](https://drive.google.com/drive/folders/1hsbHGB8H8NOC4hiOZ26nD5qGelfc95An?usp=sharing)
+
+---
+
+## Setup Steps
+
+1. Download the MinGW (64-bit) files, extract them, open it and locate to this directory `WinBGIm-64-1.0.1\libbgi\include\bgi`, you will see 5 header files. Copy and paste them to your C++ default library.
+   
+   - Example for various C++ installers default library directory:
+     * **(MinGW with Msys64)** Paste it in `C:\msys64\ucrt64\include`
 
 ---
