@@ -6,12 +6,17 @@
 #include "../../Ground/ground.h"
 #include "../../Obstacle/obstacle.h"
 
+enum class FacingGuard {
+  LEFT,
+  RIGHT
+};
+
 class Guard : public Character {
   private:
+    FacingGuard facing;
     int patrolDistance;
     int direction; // 1 for right, -1 for left
     int startX;
-
     float velocityX;
     float velocityY;
     float gravity;
@@ -33,8 +38,9 @@ class Guard : public Character {
     void setIsCaught(bool caught);
 
     // Override base class methods
-    void updatePosition() override {};
-    void drawCharacter() override {};
+    void updatePosition() override;
+    void drawCharacter() override;
+    void drawCharacter(int screenX, int screenY);
 
     void reset();
 };

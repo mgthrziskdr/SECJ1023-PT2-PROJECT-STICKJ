@@ -3,6 +3,8 @@
 #define CHARACTER_H
 
 #include <graphics.h>
+#include <string>
+#include <fstream>
 
 class Character {
   protected:
@@ -11,8 +13,10 @@ class Character {
     float speed;
     int width;
     int height;
-    // sprite is optional for now; we will use rectangles first
-    // image sprite;
+
+    // --- Sprite stuff ---
+    std::string spritePath; // store BMP file path
+    bool useSprite;         // if true, draw the sprite
 
   public:
     // Setting default value of the object from constructor
@@ -20,13 +24,22 @@ class Character {
 
     virtual void updatePosition();
 
+    // Old drawCharacter (for override)
     virtual void drawCharacter();
+
+    // New drawCharacter with screen coordinates
+    virtual void drawCharacter(int screenX, int screenY);
+
+    // Sprite controls
+    void setSprite(const char* path);
+    void disableSprite();
 
     // Getters
     int getX() const;
     int getY() const;
     int getWidth() const;
     int getHeight() const;
+    bool getUseSprite() const;
 };
 
 #endif

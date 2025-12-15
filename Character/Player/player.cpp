@@ -12,23 +12,41 @@ Player::Player(int x, int y, float spd, int w, int h)
   acceleration = 2500.0f; // pixels/sec^2
   maxSpeed = 400.0f;      // pixels/sec
   friction = 2000.0f;     // pixels/sec^2
+
+  // Set the sprite
+  facing = FacingPlayer::RIGHT;
+  setSprite("Images/Assets/stickj-right.bmp");
 }
 
-int Player::setX(int x) { xPosition = x; return xPosition; }
-int Player::setY(int y) { yPosition = y; return yPosition; }
+int Player::setX(int x)
+{
+  xPosition = x;
+  return xPosition;
+}
+int Player::setY(int y)
+{
+  yPosition = y;
+  return yPosition;
+}
 
 void Player::moveLeft(float dt)
 {
   velocityX -= acceleration * dt;
-  if (velocityX < -maxSpeed)
+  if (velocityX < -maxSpeed) {
     velocityX = -maxSpeed;
+  }
+
+  facing = FacingPlayer::LEFT;
 }
 
 void Player::moveRight(float dt)
 {
   velocityX += acceleration * dt;
-  if (velocityX > maxSpeed)
+  if (velocityX > maxSpeed) {
     velocityX = maxSpeed;
+  }
+
+  facing = FacingPlayer::RIGHT;
 }
 
 void Player::stopMoving(float dt)
@@ -48,7 +66,8 @@ void Player::stopMoving(float dt)
   }
 }
 
-void Player::resetVelocity() {
+void Player::resetVelocity()
+{
   velocityX = 0;
   velocityY = 0;
   isJumping = false;
@@ -125,5 +144,31 @@ void Player::updatePositionWithGroundDT(const Ground &ground, float dt, int worl
     yPosition = groundY - height;
     velocityY = 0;
     isJumping = false;
+  }
+}
+
+void Player::updatePosition() {}
+
+void Player::drawCharacter()
+{
+  Character::drawCharacter(xPosition, yPosition); // reuse base
+}
+
+void Player::drawCharacter(int screenX, int screenY)
+{
+  if (useSprite) {
+    if (facing == FacingPlayer::LEFT) {
+      readimagefile("Images/Assets/stickj-left.bmp",
+                    screenX, screenY,
+                    screenX + width, screenY + height);
+    } else {
+      readimagefile("Images/Assets/stickj-right.bmp",
+                    screenX, screenY,
+                    screenX + width, screenY + height);
+    }
+  } else {
+    setcolor(YELLOW);
+    setfillstyle(SOLID_FILL, YELLOW);
+    bar(screenX, screenY, screenX + width, screenY + height);
   }
 }

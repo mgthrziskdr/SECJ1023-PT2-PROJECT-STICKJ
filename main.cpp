@@ -18,6 +18,22 @@
 
 #define DEFAULT_BG_COLOR COLOR(70, 180, 255)
 
+// Types of Fonts
+/**
+  > DEFAULT_FONT        0
+  > TRIPLEX_FONT        1
+  > SMALL_FONT          2
+  > SANS_SERIF_FONT     3
+  > GOTHIC_FONT         4
+  > SCRIPT_FONT         5
+  > SIMPLEX_FONT        6
+  > TRIPLEX_SCR_FONT    7
+  > COMPLEX_FONT        8
+  > EUROPEAN_FONT       9
+  > BOLD_FONT           10
+*/
+
+
 // Parameters:
 //   screenWidth - the width of the window
 //   screenHeight - the height of the window
@@ -170,14 +186,14 @@ int main()
       bg.drawBackground();
 
       // Draw "GAME OVER" text
-      settextstyle(DEFAULT_FONT, HORIZ_DIR, 5);
+      settextstyle(BOLD_FONT, HORIZ_DIR, 5);
       setcolor(RED);
       char gameOverText[] = "GAME OVER!";
       int goWidth = textwidth(gameOverText);
       outtextxy((screenWidth - goWidth) / 2, screenHeight / 2 - 100, gameOverText);
 
       // Draw last score
-      settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
+      settextstyle(BOLD_FONT, HORIZ_DIR, 3);
       setcolor(BLACK);
       char scoreText[50];
       sprintf(scoreText, "%d Score...", score.getScore());
@@ -185,7 +201,7 @@ int main()
       outtextxy((screenWidth - scoreWidth) / 2, screenHeight / 2 - 30, scoreText);
 
       // Draw restart/exit instructions
-      settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+      settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
       setcolor(BLACK);
       char instrText[] = "[Press R to restart] or [ESC to exit]";
       int instrWidth = textwidth(instrText);
@@ -307,10 +323,9 @@ int main()
     // --- Draw Player ---
     int playerScreenX = stickJ.getX() - cameraX;
     int playerScreenY = stickJ.getY();
-    setfillstyle(SOLID_FILL, YELLOW);
-    bar(playerScreenX, playerScreenY,
-        playerScreenX + stickJ.getWidth(),
-        playerScreenY + stickJ.getHeight());
+
+    // --- Draw Player and it's sprite ---
+    stickJ.drawCharacter(playerScreenX, playerScreenY);
 
     // --- Draw Guards ---
     for (int i = 0; i < numGuards; i++)
@@ -320,10 +335,9 @@ int main()
         continue;
 
       int guardScreenY = guards[i].getY();
-      setfillstyle(SOLID_FILL, GREEN);
-      bar(guardScreenX, guardScreenY,
-          guardScreenX + guards[i].getWidth(),
-          guardScreenY + guards[i].getHeight());
+
+      // --- Draw Guards and their sprites ---
+      guards[i].drawCharacter(guardScreenX, guardScreenY);
     }
 
     // --- Draw Scoreboard ---
@@ -343,11 +357,11 @@ int main()
 // --- Star Screen ---
 void drawStartScreen(int screenWidth, int screenHeight)
 {
-  setfillstyle(SOLID_FILL, COLOR(70, 180, 255)); // sky color
+  setfillstyle(COMPLEX_FONT, COLOR(70, 180, 255)); // sky color
   bar(0, 0, screenWidth, screenHeight);
 
   // Draw course title
-  settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+  settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
   setbkcolor(DEFAULT_BG_COLOR);
   setcolor(BLACK);
   char titleText[] = "SECJ1023 PT2 PROJECT";
@@ -355,7 +369,7 @@ void drawStartScreen(int screenWidth, int screenHeight)
   outtextxy((screenWidth - titleWidth) / 2, screenHeight / 2 - 100, titleText);
 
   // Draw game title
-  settextstyle(DEFAULT_FONT, HORIZ_DIR, 5);
+  settextstyle(BOLD_FONT, HORIZ_DIR, 5);
   setbkcolor(DEFAULT_BG_COLOR);
   setcolor(BLACK);
   char title2Text[] = "STICK J";
@@ -363,7 +377,7 @@ void drawStartScreen(int screenWidth, int screenHeight)
   outtextxy((screenWidth - title2Width) / 2, screenHeight / 2 - 60, title2Text);
 
   // Draw instructions
-  settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
+  settextstyle(COMPLEX_FONT, HORIZ_DIR, 3);
   setbkcolor(DEFAULT_BG_COLOR);
   setcolor(BLACK);
   char instrText[] = "[Press SPACE to start]";
@@ -371,7 +385,7 @@ void drawStartScreen(int screenWidth, int screenHeight)
   outtextxy((screenWidth - instrWidth) / 2, screenHeight / 2, instrText);
 
   // Draw developer credit
-  settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+  settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
   setbkcolor(DEFAULT_BG_COLOR);
   setcolor(BLACK);
   char creditText[] = "Developed by: Megat, Syazani, Riva & Nurain";

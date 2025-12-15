@@ -5,9 +5,15 @@
 #include "../../Ground/ground.h"
 #include "../../Obstacle/obstacle.h"
 
+enum class FacingPlayer {
+  LEFT,
+  RIGHT
+};
+
 class Player : public Character
 {
 private:
+  FacingPlayer facing;
   bool isJumping;
   float jumpSpeed; // pixels/sec
   float gravity;   // pixels/sec^2
@@ -31,8 +37,9 @@ public:
 
   void updatePositionWithGroundDT(const Ground &ground, float dt, int worldWidth, Obstacle *obsList, int obsCount);
 
-  void updatePosition() override {}
-  void drawCharacter() override {}
+  void updatePosition() override;
+  void drawCharacter() override;
+  void drawCharacter(int screenX, int screenY);
 };
 
 #endif

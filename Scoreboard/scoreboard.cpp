@@ -37,7 +37,7 @@ int Scoreboard::getScore() const
 void Scoreboard::drawScoreboard(int bgColor, int txtColor) const
 {
   // Draw at top-right corner
-  settextstyle(GOTHIC_FONT, HORIZ_DIR, 2);
+  settextstyle(BOLD_FONT, HORIZ_DIR, 2);
   setcolor(txtColor);
   setbkcolor(bgColor);
   std::ostringstream ss;
@@ -49,7 +49,7 @@ void Scoreboard::drawScoreboard(int bgColor, int txtColor) const
 void Scoreboard::drawScoreboard(const Background &bg, int txtColor) const
 {
   // Draw at top-right corner
-  settextstyle(GOTHIC_FONT, HORIZ_DIR, 2);
+  settextstyle(BOLD_FONT, HORIZ_DIR, 2);
   setcolor(txtColor);
   setbkcolor(bg.getColor());
   std::ostringstream ss;
