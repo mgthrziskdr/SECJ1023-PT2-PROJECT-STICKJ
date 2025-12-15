@@ -45,6 +45,7 @@
 /.vs
 /Audio
 /Images/Docs
+/.vscode
 
 # Other files
 temp
