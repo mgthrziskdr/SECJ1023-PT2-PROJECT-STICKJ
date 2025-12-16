@@ -3,6 +3,7 @@
 
 #include "../character.h"
 #include "../../Ground/ground.h"
+#include "../../Airplane/airplane.h"
 #include "../../Obstacle/obstacle.h"
 
 enum class FacingPlayer {
@@ -36,6 +37,7 @@ public:
   void jump();
 
   void updatePositionWithGroundDT(const Ground &ground, float dt, int worldWidth, Obstacle *obsList, int obsCount);
+  bool checkAirplaneCollision(const Airplane &plane);
 
   void updatePosition() override;
   void drawCharacter() override;

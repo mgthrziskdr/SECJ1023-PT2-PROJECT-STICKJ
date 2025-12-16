@@ -82,6 +82,7 @@ void Player::jump()
   }
 }
 
+// Update position with ground and delta time
 void Player::updatePositionWithGroundDT(const Ground &ground, float dt, int worldWidth, Obstacle *obsList, int obsCount)
 {
   // --- Apply gravity ---
@@ -145,6 +146,15 @@ void Player::updatePositionWithGroundDT(const Ground &ground, float dt, int worl
     velocityY = 0;
     isJumping = false;
   }
+}
+
+// Player-Airplane collision
+bool Player::checkAirplaneCollision(const Airplane &plane)
+{
+  return !(xPosition + width < plane.getX() ||
+            xPosition > plane.getX() + plane.getWidth() ||
+            yPosition + height < plane.getY() ||
+            yPosition > plane.getY() + plane.getHeight());
 }
 
 void Player::updatePosition() {}

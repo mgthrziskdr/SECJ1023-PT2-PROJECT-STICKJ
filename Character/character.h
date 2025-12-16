@@ -14,7 +14,7 @@ class Character {
     int width;
     int height;
 
-    // --- Sprite stuff ---
+    // --- Sprite ---
     std::string spritePath; // store BMP file path
     bool useSprite;         // if true, draw the sprite
 
