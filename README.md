@@ -94,15 +94,20 @@ This project uses the **WinBGIm graphics library**, which is outdated but common
 
 ## Setup Requirements
 
-* MinGW (64-bit) Supports: [Link 1](https://github.com/ahmedshakill/WinBGIm-64) (Recommended) or [Link 2](https://drive.google.com/drive/folders/1hsbHGB8H8NOC4hiOZ26nD5qGelfc95An?usp=sharing)
+* WinBGIm (64-bit) Graphics.h Supports: ([Link 1](https://github.com/ahmedshakill/WinBGIm-64) & [Download This](https://github.com/ahmedshakill/WinBGIm-64/releases/tag/v1.0.1) <= Recommended) or [Link 2](https://drive.google.com/drive/folders/1hsbHGB8H8NOC4hiOZ26nD5qGelfc95An?usp=sharing)
 
 ---
 
 ## Setup Steps
 
-1. Download the MinGW (64-bit) files, extract them, open it and locate to this directory `WinBGIm-64-1.0.1\libbgi\include\bgi`, you will see 5 header files. Copy and paste them to your C++ default library.
+1. Download the WinBGIm (64-bit) files, extract them, open it and locate to this directory `WinBGIm-64-1.0.1\libbgi\include\bgi`, you will see 4 header files + 1 libbgi.a
+ file. Copy and paste them to your C++ default library.
    
    - Example for various C++ installers default library directory:
-     * **(MinGW with Msys64)** Paste it in `C:\msys64\ucrt64\include`
+     * **(MinGW with Msys64)** Paste it in `C:\msys64\ucrt64\include` **(Recommended)**
+
+2. Replace 2 files **(graphics.h & libbgi.a)** that you have pasted before with the 2 files from this [LINK](https://github.com/ahmedshakill/WinBGIm-64/releases/tag/v1.0.1).
+3. Then try and run any example code that requires `#include <graphics.h>`. If "OK", then you can go a head and open or clone the project inside your code editor.
+4. To test the game just simply open your terminal and navigate to the project directory. After that just run this command `run_build.bat` on the terminal.
 
 ---
