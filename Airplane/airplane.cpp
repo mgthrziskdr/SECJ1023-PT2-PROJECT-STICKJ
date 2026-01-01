@@ -41,6 +41,7 @@ void Airplane::drawAirplane(float cameraX) const
   if (useSprite && !spritePath.empty()) {
     readimagefile(spritePath.c_str(), screenX, screenY, screenX + width, screenY + height);
   } else {
+    setbkcolor(COLOR(70, 180, 255));
     setcolor(BLUE);
     setfillstyle(SOLID_FILL, BLUE);
     bar(screenX, screenY, screenX + width, screenY + height);

@@ -7,6 +7,10 @@
 // Link with WinMM library
 #pragma comment(lib, "winmm.lib")
 
+// Color Themes
+#define SKY_COLOR COLOR(70, 180, 255)
+#define GROUND_COLOR COLOR(180, 148, 96)
+
 // Types of Fonts
 /**
   > DEFAULT_FONT        0
@@ -33,15 +37,15 @@ Game::Game()
       isGameStarted(false),
       isGameOver(false),
       gameWon(false),
-      bg(COLOR(70, 180, 255)),  // Sky Blue
-      ground(0, 400, worldWidth, 100, COLOR(180, 148, 96)),
+      bg(SKY_COLOR), // Sky Blue
+      ground(0, 400, worldWidth, 100, GROUND_COLOR),
       score(),
       stickJ(100, 355, 0.95f, 40, 40),
       plane(worldWidth - 80, 340, 80, 60),
       lastTime(GetTickCount()),
       deltaTime(0.0f),
       backgroundMusicState(false),
-      gameVers("1.0")
+      gameVers("2.0")
 {
   srand(time(NULL));
 
@@ -51,7 +55,8 @@ Game::Game()
     bool ok;
     int x;
 
-    do {
+    do
+    {
       ok = true;
       x = 500 + rand() % (worldWidth - 600);
       for (int j = 0; j < i; j++)
@@ -103,7 +108,7 @@ void Game::run()
 {
   // Setting game window version
   std::string getVers = "Stick J Test v" + gameVers;
-  const char* cgetVers = getVers.c_str();
+  const char *cgetVers = getVers.c_str();
   initwindow(screenWidth, screenHeight, cgetVers);
 
   playBackgroundMusic();
@@ -168,7 +173,7 @@ void Game::run()
 // --- DRAW START SCREEN ---
 void Game::drawStartScreen()
 {
-  setfillstyle(COMPLEX_FONT, COLOR(70, 180, 255));
+  setfillstyle(COMPLEX_FONT, SKY_COLOR);
   bar(0, 0, screenWidth, screenHeight);
 
   settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
@@ -176,29 +181,46 @@ void Game::drawStartScreen()
   // Pre-Render game for start screen
   renderGame();
 
-  setbkcolor(COLOR(70, 180, 255));
+  // ====================================================================================
+  setbkcolor(SKY_COLOR); // ground color
+  settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
+  setcolor(BLACK);
+
   setcolor(BLACK);
   char titleText[] = "SECJ1023 PT2 PROJECT";
-  outtextxy((screenWidth - textwidth(titleText)) / 2, screenHeight / 2 - 100, titleText);
+  outtextxy((screenWidth - textwidth(titleText)) / 2, screenHeight / 2 - 120, titleText);
+  // ====================================================================================
 
   settextstyle(BOLD_FONT, HORIZ_DIR, 5);
   setcolor(BLACK);
   char title2Text[] = "STICK J";
-  outtextxy((screenWidth - textwidth(title2Text)) / 2, screenHeight / 2 - 60, title2Text);
+  outtextxy((screenWidth - textwidth(title2Text)) / 2, screenHeight / 2 - 90, title2Text);
 
   settextstyle(COMPLEX_FONT, HORIZ_DIR, 3);
   setcolor(BLACK);
-  char instrText[] = "[Press SPACE to start]";
-  outtextxy((screenWidth - textwidth(instrText)) / 2, screenHeight / 2, instrText);
+  char instrText[] = "Press";
+  outtextxy((screenWidth - textwidth(instrText)) / 2, screenHeight / 2 - 25, instrText);
 
+  int imgWidth = 200;
+  int imgHeight = 50;
+
+  int left = (screenWidth - imgWidth) / 2;
+  int right = left + imgWidth;
+  int bottom = (screenHeight / 2) + 55;
+  int top = bottom - imgHeight;
+
+  readimagefile("Images/Assets/gif/space_cap.gif", left, top, right, bottom);
+
+  // ====================================================================================
   // Set different background font color
-  setbkcolor(COLOR(180, 148, 96));   // ground color
+  setbkcolor(GROUND_COLOR); // ground color
   settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
   setcolor(BLACK);
 
   setcolor(BLACK);
   char creditText[] = "Developed by: Megat, Syazani, Riva & Nurain";
-  outtextxy((screenWidth - textwidth(creditText)) / 2, screenHeight / 2 + 200, creditText);
+  outtextxy((screenWidth - textwidth(creditText)) / 2, screenHeight / 2 + 190, creditText);
+  // ====================================================================================
 }
 
 // =============
@@ -210,11 +232,16 @@ void Game::handleInput()
   bool right = GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState('D');
   bool up = GetAsyncKeyState(VK_UP) || GetAsyncKeyState(VK_SPACE) || GetAsyncKeyState('W');
 
-  if (left && !right) {
+  if (left && !right)
+  {
     stickJ.moveLeft(deltaTime);
-  } else if (right && !left) {
+  }
+  else if (right && !left)
+  {
     stickJ.moveRight(deltaTime);
-  } else {
+  }
+  else
+  {
     stickJ.stopMoving(deltaTime);
   }
 
@@ -337,6 +364,9 @@ void Game::renderGame()
 
   // Draw Scoreboard
   score.drawScoreboard(bg, BLACK);
+
+  // Draw Game Version
+  drawVersion();
 }
 
 // ========================
@@ -390,6 +420,7 @@ void Game::drawGameOver()
 
   outtextxy((screenWidth - textwidth(text)) / 2, screenHeight / 2 - 100, text);
 
+  setbkcolor(SKY_COLOR);
   settextstyle(BOLD_FONT, HORIZ_DIR, 3);
   setcolor(BLACK);
   char scoreText[50];
@@ -401,10 +432,11 @@ void Game::drawGameOver()
   char instrText[] = "[Press R to restart] or [ESC to exit]";
   outtextxy((screenWidth - textwidth(instrText)) / 2, screenHeight / 2 + 30, instrText);
 
-  if (GetAsyncKeyState('R') & 0x8000) {
+  if (GetAsyncKeyState('R') & 0x8000)
+  {
     resetGame();
   }
-  else if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) 
+  else if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
   {
     exit(0);
   }
@@ -433,4 +465,25 @@ void Game::resetGame()
   isGameOver = false;
   gameWon = false;
   playBackgroundMusic();
+}
+
+// =====================================
+// ---- GAME VERSION (bottom-right) ----
+// =====================================
+void Game::drawVersion()
+{
+  int textH = 15;
+  int x = screenWidth - 250;
+  int y = screenHeight - textH - 10;
+
+  setbkcolor(GROUND_COLOR);
+  settextstyle(COMPLEX_FONT, HORIZ_DIR, 1);
+  setcolor(BLACK);
+
+  std::string temp = "Build v" + gameVers + " \xA9 2025/2026";
+
+  char versionText[80];
+  strcpy(versionText, temp.c_str()); // copy to mutable array
+
+  outtextxy(x, y, versionText);
 }
