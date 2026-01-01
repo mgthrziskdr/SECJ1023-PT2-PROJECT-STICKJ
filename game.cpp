@@ -45,7 +45,7 @@ Game::Game()
       lastTime(GetTickCount()),
       deltaTime(0.0f),
       backgroundMusicState(false),
-      gameVers("2.0")
+      gameVers("1.0")
 {
   srand(time(NULL));
 
