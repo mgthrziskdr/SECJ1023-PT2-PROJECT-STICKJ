@@ -409,28 +409,85 @@ void Game::drawGameOver()
 
   char text[20]; // make sure the array is big enough
 
+  // Set image size properties
+  int imgWidth = 250; // Example width
+  int imgHeight = 50; // Example height
+
+  // Image Horizontal Position
+  int left = (screenWidth - imgWidth) / 2;
+  int right = left + imgWidth;
+
+  // Image Vertical Position
+  int bottom = (screenHeight / 2) - 50;
+  int top = bottom - imgHeight;
+
+  // Pre-Render game for scoreboard status
+  renderGame();
+
   if (gameWon)
   {
-    strcpy(text, "WIN!");
+    // strcpy(text, "WIN!");
+
+    // Draw the image
+    readimagefile("Images/Assets/gif/win.gif", left, top, right, bottom);
   }
   else
   {
-    strcpy(text, "GAME OVER!");
+    // strcpy(text, "GAME OVER!");
+
+    // Draw the image
+    readimagefile("Images/Assets/gif/game_over.gif", left, top, right, bottom);
   }
 
   outtextxy((screenWidth - textwidth(text)) / 2, screenHeight / 2 - 100, text);
 
+  // Display final score
   setbkcolor(SKY_COLOR);
   settextstyle(BOLD_FONT, HORIZ_DIR, 3);
   setcolor(BLACK);
   char scoreText[50];
   sprintf(scoreText, "%d Score...", score.getScore());
-  outtextxy((screenWidth - textwidth(scoreText)) / 2, screenHeight / 2 - 30, scoreText);
+  outtextxy((screenWidth - textwidth(scoreText)) / 2, screenHeight / 2 - 20, scoreText);
 
-  settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
-  setcolor(BLACK);
-  char instrText[] = "[Press R to restart] or [ESC to exit]";
-  outtextxy((screenWidth - textwidth(instrText)) / 2, screenHeight / 2 + 30, instrText);
+  // Configure text and images for instructions
+  const char* p1 = "[Press ";
+  const char* p2 = " to restart] or [";
+  const char* p3 = " to exit]";
+
+  // Set image size properties
+  int iconW = 40;
+  int iconH = 40;
+  int yPos = screenHeight / 2 + 30;
+
+  // Calculate Total Width to Center Everything
+  int totalWidth = textwidth((char*)p1) + iconW + textwidth((char*)p2) + iconW + textwidth((char*)p3);
+  int currentX = (screenWidth - totalWidth) / 2;
+
+  // Draw "[Press "
+  outtextxy(currentX, yPos, (char*)p1);
+  currentX += textwidth((char*)p1);
+
+  // Draw 'R' Image
+  readimagefile("Images/Assets/gif/r_cap.gif", currentX, yPos - 5, currentX + iconW, yPos - 5 + iconH);
+  currentX += iconW;
+
+  // Draw " to restart] or ["
+  outtextxy(currentX, yPos, (char*)p2);
+  currentX += textwidth((char*)p2);
+
+  // Draw 'ESC' Image
+  readimagefile("Images/Assets/gif/esc_cap.gif", currentX, yPos - 5, currentX + iconW, yPos - 5 + iconH);
+  currentX += iconW;
+
+  // Draw " to exit"
+  outtextxy(currentX, yPos, (char*)p3);
+
+  // --- Maintainance Code ---
+  //  settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
+  //  setcolor(BLACK);
+  //  char instrText[] = "[Press R to restart] or [ESC to exit]";
+
+  // outtextxy((screenWidth - textwidth(instrText)) / 2, screenHeight / 2 + 30, instrText);
 
   if (GetAsyncKeyState('R') & 0x8000)
   {
