@@ -14,8 +14,7 @@ Player::Player(int x, int y, float spd, int w, int h)
   friction = 2000.0f;     // pixels/sec^2
 
   // Set the sprite
-  facing = FacingPlayer::RIGHT;
-  setSprite("Images/Assets/stickj-right.bmp");
+  state = PlayerState::IDLE_RIGHT;
 }
 
 int Player::setX(int x)
@@ -32,21 +31,37 @@ int Player::setY(int y)
 void Player::moveLeft(float dt)
 {
   velocityX -= acceleration * dt;
-  if (velocityX < -maxSpeed) {
+  if (velocityX < -maxSpeed)
+  {
     velocityX = -maxSpeed;
   }
 
-  facing = FacingPlayer::LEFT;
+  if (isJumping)
+  {
+    state = PlayerState::JUMP_LEFT;
+  }
+  else
+  {
+    state = PlayerState::MOVE_LEFT;
+  }
 }
 
 void Player::moveRight(float dt)
 {
   velocityX += acceleration * dt;
-  if (velocityX > maxSpeed) {
+  if (velocityX > maxSpeed)
+  {
     velocityX = maxSpeed;
   }
 
-  facing = FacingPlayer::RIGHT;
+  if (isJumping)
+  {
+    state = PlayerState::JUMP_RIGHT;
+  }
+  else
+  {
+    state = PlayerState::MOVE_RIGHT;
+  }
 }
 
 void Player::stopMoving(float dt)
@@ -64,6 +79,18 @@ void Player::stopMoving(float dt)
     if (velocityX > 0)
       velocityX = 0;
   }
+
+  if (!isJumping && velocityX == 0)
+  {
+    if (state == PlayerState::MOVE_LEFT)
+    {
+      state = PlayerState::IDLE_LEFT;
+    }
+    else if (state == PlayerState::MOVE_RIGHT)
+    {
+      state = PlayerState::IDLE_RIGHT;
+    }
+  }
 }
 
 void Player::resetVelocity()
@@ -79,6 +106,15 @@ void Player::jump()
   {
     velocityY = -jumpSpeed;
     isJumping = true;
+
+    if (state == PlayerState::MOVE_LEFT || state == PlayerState::IDLE_LEFT)
+    {
+      state = PlayerState::JUMP_LEFT;
+    }
+    else
+    {
+      state = PlayerState::JUMP_RIGHT;
+    }
   }
 }
 
@@ -94,9 +130,14 @@ void Player::updatePositionWithGroundDT(const Ground &ground, float dt, int worl
 
   // --- Clamp inside world ---
   if (xPosition < 0)
+  {
     xPosition = 0;
+  }
+
   if (xPosition + width > worldWidth)
+  {
     xPosition = worldWidth - width;
+  }
 
   // --- Obstacle collisions ---
   for (int i = 0; i < obsCount; i++)
@@ -120,6 +161,15 @@ void Player::updatePositionWithGroundDT(const Ground &ground, float dt, int worl
       yPosition = obsTop - height;
       velocityY = 0;
       isJumping = false;
+
+      if (state == PlayerState::JUMP_LEFT)
+      {
+        state = PlayerState::IDLE_LEFT;
+      }
+      else if (state == PlayerState::JUMP_RIGHT)
+      {
+        state = PlayerState::IDLE_RIGHT;
+      }
     }
 
     // Horizontal collisions
@@ -145,6 +195,15 @@ void Player::updatePositionWithGroundDT(const Ground &ground, float dt, int worl
     yPosition = groundY - height;
     velocityY = 0;
     isJumping = false;
+
+    if (state == PlayerState::JUMP_LEFT)
+    {
+      state = PlayerState::IDLE_LEFT;
+    }
+    else if (state == PlayerState::JUMP_RIGHT)
+    {
+      state = PlayerState::IDLE_RIGHT;
+    }
   }
 }
 
@@ -152,9 +211,9 @@ void Player::updatePositionWithGroundDT(const Ground &ground, float dt, int worl
 bool Player::checkAirplaneCollision(const Airplane &plane)
 {
   return !(xPosition + width < plane.getX() ||
-            xPosition > plane.getX() + plane.getWidth() ||
-            yPosition + height < plane.getY() ||
-            yPosition > plane.getY() + plane.getHeight());
+           xPosition > plane.getX() + plane.getWidth() ||
+           yPosition + height < plane.getY() ||
+           yPosition > plane.getY() + plane.getHeight());
 }
 
 void Player::updatePosition() {}
@@ -166,18 +225,41 @@ void Player::drawCharacter()
 
 void Player::drawCharacter(int screenX, int screenY)
 {
-  if (useSprite) {
-    if (facing == FacingPlayer::LEFT) {
-      readimagefile("Images/Assets/stickj-left.bmp",
-                    screenX, screenY,
-                    screenX + width, screenY + height);
-    } else {
-      readimagefile("Images/Assets/stickj-right.bmp",
-                    screenX, screenY,
-                    screenX + width, screenY + height);
-    }
-  } else {
-    setcolor(YELLOW);
+  const char *sprite = nullptr;
+
+  switch (state)
+  {
+  case PlayerState::MOVE_LEFT:
+    sprite = "Images/Assets/gif/stickj-move-left.gif";
+    break;
+
+  case PlayerState::MOVE_RIGHT:
+    sprite = "Images/Assets/gif/stickj-move-right.gif";
+    break;
+
+  case PlayerState::IDLE_LEFT:
+    sprite = "Images/Assets/gif/stickj-left.gif";
+    break;
+
+  case PlayerState::IDLE_RIGHT:
+    sprite = "Images/Assets/gif/stickj-right.gif";
+    break;
+
+  case PlayerState::JUMP_LEFT:
+    sprite = "Images/Assets/gif/stickj-jump-left.gif";
+    break;
+
+  case PlayerState::JUMP_RIGHT:
+    sprite = "Images/Assets/gif/stickj-jump-right.gif";
+    break;
+  }
+
+  if (sprite)
+  {
+    readimagefile(sprite, screenX, screenY, screenX + width, screenY + height);
+  }
+  else
+  {
     setfillstyle(SOLID_FILL, YELLOW);
     bar(screenX, screenY, screenX + width, screenY + height);
   }

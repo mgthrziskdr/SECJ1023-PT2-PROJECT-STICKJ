@@ -2,6 +2,7 @@
 #include <mmsystem.h>
 #include <cmath>
 #include <fstream>
+#include <string>
 
 // Link with WinMM library
 #pragma comment(lib, "winmm.lib")
@@ -29,16 +30,18 @@ Game::Game()
       cameraX(0.0f),
       screenCenter(screenWidth / 2),
       cameraSmooth(0.15f),
+      isGameStarted(false),
       isGameOver(false),
       gameWon(false),
       bg(COLOR(70, 180, 255)),  // Sky Blue
       ground(0, 400, worldWidth, 100, COLOR(180, 148, 96)),
       score(),
-      stickJ(100, 350, 0.95f, 40, 40),
+      stickJ(100, 355, 0.95f, 40, 40),
       plane(worldWidth - 80, 340, 80, 60),
       lastTime(GetTickCount()),
       deltaTime(0.0f),
-      backgroundMusicState(false)
+      backgroundMusicState(false),
+      gameVers("1.0")
 {
   srand(time(NULL));
 
@@ -87,7 +90,9 @@ Game::Game()
     } while (!ok);
 
     int patrol = 150 + rand() % 300;
-    guards[i] = Guard(x, 350, patrol, 40, 40);
+
+    // Configuration for guards
+    guards[i] = Guard(x, 360, patrol, 40, 40);
   }
 }
 
@@ -96,7 +101,11 @@ Game::Game()
 // ======================
 void Game::run()
 {
-  initwindow(screenWidth, screenHeight, "Stick J Test v0.2");
+  // Setting game window version
+  std::string getVers = "Stick J Test v" + gameVers;
+  const char* cgetVers = getVers.c_str();
+  initwindow(screenWidth, screenHeight, cgetVers);
+
   playBackgroundMusic();
 
   // Wait for SPACE to start
@@ -163,6 +172,10 @@ void Game::drawStartScreen()
   bar(0, 0, screenWidth, screenHeight);
 
   settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
+
+  // Pre-Render game for start screen
+  renderGame();
+
   setbkcolor(COLOR(70, 180, 255));
   setcolor(BLACK);
   char titleText[] = "SECJ1023 PT2 PROJECT";
@@ -178,7 +191,11 @@ void Game::drawStartScreen()
   char instrText[] = "[Press SPACE to start]";
   outtextxy((screenWidth - textwidth(instrText)) / 2, screenHeight / 2, instrText);
 
+  // Set different background font color
+  setbkcolor(COLOR(180, 148, 96));   // ground color
   settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
+  setcolor(BLACK);
+
   setcolor(BLACK);
   char creditText[] = "Developed by: Megat, Syazani, Riva & Nurain";
   outtextxy((screenWidth - textwidth(creditText)) / 2, screenHeight / 2 + 200, creditText);
@@ -415,4 +432,5 @@ void Game::resetGame()
   score.reset();
   isGameOver = false;
   gameWon = false;
+  playBackgroundMusic();
 }

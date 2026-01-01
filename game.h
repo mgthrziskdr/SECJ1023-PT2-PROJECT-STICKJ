@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
 #include "Background/background.h"
 #include "Ground/ground.h"
@@ -27,7 +28,11 @@ class Game
     int screenCenter;
     float cameraSmooth;
 
+    // Game version
+    std::string gameVers;
+
     // Game state
+    bool isGameStarted;
     bool isGameOver;
     bool gameWon;
 

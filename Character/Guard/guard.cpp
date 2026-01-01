@@ -13,7 +13,7 @@ Guard::Guard() : Character(0, 0, 1.5f, 20, 40), patrolDistance(0)
 
   // Set the sprite
   facing = FacingGuard::RIGHT;
-  setSprite("Images/Assets/guard-right.bmp");
+  setSprite("Images/Assets/gif/guard-right.gif");
 }
 
 Guard::Guard(int x, int y, int patrolDist, int w, int h)
@@ -28,7 +28,7 @@ Guard::Guard(int x, int y, int patrolDist, int w, int h)
   isCaught = false;
 
   facing = FacingGuard::RIGHT;
-  setSprite("Images/Assets/guard-right.bmp");
+  setSprite("Images/Assets/gif/guard-right.gif");
 }
 
 void Guard::updatePositionWithGroundDT(const Ground &ground, float dt, Obstacle *obsList, int obsCount)
@@ -111,11 +111,11 @@ void Guard::drawCharacter(int screenX, int screenY)
     // outtextxy(screenX, screenY - 10, (char*)"GUARD DRAW");
 
     if (facing == FacingGuard::LEFT) {
-      readimagefile("Images/Assets/guard-left.bmp",
+      readimagefile("Images/Assets/gif/guard-left.gif",
                     screenX, screenY,
                     screenX + width, screenY + height);
     } else {
-      readimagefile("Images/Assets/guard-right.bmp",
+      readimagefile("Images/Assets/gif/guard-right.gif",
                     screenX, screenY,
                     screenX + width, screenY + height);
     }
