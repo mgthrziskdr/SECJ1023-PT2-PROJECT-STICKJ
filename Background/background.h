@@ -14,7 +14,7 @@ class Background {
     int cloudsX[CLOUD_COUNT];
     int cloudsY[CLOUD_COUNT];
 
-     // --- Sprite ---
+    // --- Sprite ---
     std::string spriteCloudPath; // store GIF file path
     bool useSpriteCloud = false;         // if true, draw the sprite
 
@@ -37,6 +37,8 @@ class Background {
 
     // Optional: Move clouds for animation
     void updateClouds(int speed = 1);
+
+    ~Background();
 };
 
 #endif

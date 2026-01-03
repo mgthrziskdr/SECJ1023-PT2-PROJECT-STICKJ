@@ -20,6 +20,7 @@ class Obstacle
 
     std::string spritePath; // store GIF file path
     bool useSprite;         // if true, draw the sprite
+    int* spriteData;
 
   public:
     // Default constructor
@@ -49,7 +50,8 @@ class Obstacle
     // Draws the obstacle on screen, adjusted by camera position
     void drawObstacle(float cameraX) const;
 
-
+    // Destructor
+    ~Obstacle();
 };
 
 #endif

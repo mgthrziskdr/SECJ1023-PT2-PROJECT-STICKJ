@@ -48,6 +48,8 @@ class Player : public Character
     void updatePosition() override;
     void drawCharacter() override;
     void drawCharacter(int screenX, int screenY);
+
+    ~Player();
 };
 
 #endif

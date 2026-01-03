@@ -12,7 +12,7 @@ class Airplane {
     int height;
 
     // --- Sprite ---
-    std::string spritePath; // store BMP file path
+    std::string spritePath; // store GIF file path
     bool useSprite;         // if true, draw the sprite
 
   public:
@@ -31,6 +31,8 @@ class Airplane {
     int getY() const;
     int getWidth() const;
     int getHeight() const;
+
+    ~Airplane();
 };
 
 #endif

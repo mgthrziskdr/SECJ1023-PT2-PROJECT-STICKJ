@@ -56,3 +56,8 @@ void Scoreboard::drawScoreboard(const Background &bg, int txtColor) const
   ss << currentScore << " Score...";
   outtextxy(900, 20, (char *)ss.str().c_str());
 }
+
+// ----------------------------------------------------
+// Destructor
+// ----------------------------------------------------
+Scoreboard::~Scoreboard() {}

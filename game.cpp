@@ -41,7 +41,8 @@ Game::Game()
       ground(0, 400, worldWidth, 100, GROUND_COLOR),
       score(),
       stickJ(100, 355, 0.95f, 40, 40),
-      plane(worldWidth - 80, 340, 80, 60),
+      // plane(worldWidth - 80, 340, 80, 60),
+      plane(worldWidth - 250, 105, 300, 300),
       lastTime(GetTickCount()),
       deltaTime(0.0f),
       backgroundMusicState(false),
@@ -58,7 +59,7 @@ Game::Game()
     do
     {
       ok = true;
-      x = 500 + rand() % (worldWidth - 600);
+      x = 500 + rand() % (worldWidth - 1000);
       for (int j = 0; j < i; j++)
       {
         if (abs(x - obstacles[j].getX()) < 200)
@@ -71,8 +72,21 @@ Game::Game()
 
     int w = 30 + rand() % 40;
     int h = 30 + rand() % 50;
-    ObstacleShape type = static_cast<ObstacleShape>(rand() % 3);
-    obstacles[i] = Obstacle(x, 360, w, 40, type);
+    ObstacleShape type = static_cast<ObstacleShape>(rand() % 2);
+
+    // Configure each obstacles appearances
+    if (type == ObstacleShape::RECTANGLE)
+    {
+      obstacles[i] = Obstacle(x, 340, 40, 60, type);
+    }
+    else if (type == ObstacleShape::CIRCLE)
+    {
+      obstacles[i] = Obstacle(x, 375, w, 25, type);
+    }
+    else 
+    {
+      obstacles[i] = Obstacle(x, 360, w, 40, type);
+    }
   }
 
   // Generate guards randomly
@@ -107,7 +121,7 @@ Game::Game()
 void Game::run()
 {
   // Setting game window version
-  std::string getVers = "Stick J Test v" + gameVers;
+  std::string getVers = "Stick J Beta v" + gameVers;
   const char *cgetVers = getVers.c_str();
   initwindow(screenWidth, screenHeight, cgetVers);
 
@@ -450,9 +464,9 @@ void Game::drawGameOver()
   outtextxy((screenWidth - textwidth(scoreText)) / 2, screenHeight / 2 - 20, scoreText);
 
   // Configure text and images for instructions
-  const char* p1 = "[Press ";
-  const char* p2 = " to restart] or [";
-  const char* p3 = " to exit]";
+  const char *p1 = "[Press ";
+  const char *p2 = " to restart] or [";
+  const char *p3 = " to exit]";
 
   // Set image size properties
   int iconW = 40;
@@ -460,27 +474,27 @@ void Game::drawGameOver()
   int yPos = screenHeight / 2 + 30;
 
   // Calculate Total Width to Center Everything
-  int totalWidth = textwidth((char*)p1) + iconW + textwidth((char*)p2) + iconW + textwidth((char*)p3);
+  int totalWidth = textwidth((char *)p1) + iconW + textwidth((char *)p2) + iconW + textwidth((char *)p3);
   int currentX = (screenWidth - totalWidth) / 2;
 
   // Draw "[Press "
-  outtextxy(currentX, yPos, (char*)p1);
-  currentX += textwidth((char*)p1);
+  outtextxy(currentX, yPos, (char *)p1);
+  currentX += textwidth((char *)p1);
 
   // Draw 'R' Image
   readimagefile("Images/Assets/gif/r_cap.gif", currentX, yPos - 5, currentX + iconW, yPos - 5 + iconH);
   currentX += iconW;
 
   // Draw " to restart] or ["
-  outtextxy(currentX, yPos, (char*)p2);
-  currentX += textwidth((char*)p2);
+  outtextxy(currentX, yPos, (char *)p2);
+  currentX += textwidth((char *)p2);
 
   // Draw 'ESC' Image
   readimagefile("Images/Assets/gif/esc_cap.gif", currentX, yPos - 5, currentX + iconW, yPos - 5 + iconH);
   currentX += iconW;
 
   // Draw " to exit"
-  outtextxy(currentX, yPos, (char*)p3);
+  outtextxy(currentX, yPos, (char *)p3);
 
   // --- Maintainance Code ---
   //  settextstyle(COMPLEX_FONT, HORIZ_DIR, 2);
@@ -544,3 +558,9 @@ void Game::drawVersion()
 
   outtextxy(x, y, versionText);
 }
+
+
+// =====================================
+// ------------ Destructor -------------
+// =====================================
+Game::~Game() {}

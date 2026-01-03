@@ -28,6 +28,8 @@ class Ground {
     int getY() const;
     int getWidth() const;
     int getHeight() const;
+    
+    ~Ground();
 };
 
 #endif

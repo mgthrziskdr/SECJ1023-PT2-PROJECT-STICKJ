@@ -72,6 +72,8 @@ class Game
     Game();
     void run(); // main game loop
     void drawVersion();
+
+    ~Game();
 };
 
 #endif
