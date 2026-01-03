@@ -1,5 +1,7 @@
 #include "background.h"
 #include <graphics.h>
+#include <fstream>
+#include <string>
 
 // Constructor
 Background::Background(int bgColor) : color(bgColor)
@@ -10,27 +12,61 @@ Background::Background(int bgColor) : color(bgColor)
     cloudsX[i] = rand() % 800; // screen width
     cloudsY[i] = rand() % 200; // top sky
   }
+
+   // automatically check file existence
+  setSpriteCloud("Images/Assets/gif/cloud.gif");
 }
 
-// Draw background + clouds
+// File check for sprite
+void Background::setSpriteCloud(const char* path)
+{
+  std::ifstream file(path);
+  if (file.good()) {
+    spriteCloudPath = path;
+    useSpriteCloud = true;
+  } else {
+    useSpriteCloud = false;
+  }
+  file.close();
+}
+
+void Background::disableSpriteCloud()
+{
+  useSpriteCloud = false;
+  spriteCloudPath = "";
+}
+
 void Background::drawBackground(int OFFSET_Y)
 {
-  // Fill the whole screen
-  setfillstyle(SOLID_FILL, color);
-  bar(0, 0, getmaxx(), getmaxy());
+    // Fill background
+    setfillstyle(SOLID_FILL, color);
+    bar(0, 0, getmaxx(), getmaxy());
 
-  // Draw clouds
-  setfillstyle(SOLID_FILL, WHITE);
-  for (int i = 0; i < CLOUD_COUNT; ++i)
-  {
-    int cx = cloudsX[i];
-    int cy = cloudsY[i] + OFFSET_Y;
+    // Draw clouds
+    for (int i = 0; i < CLOUD_COUNT; i++)
+    {
+        int cx = cloudsX[i];
+        int cy = cloudsY[i] + OFFSET_Y;
 
-    // Cloud drawing shape
-    bar(cx, cy, cx + 60, cy + 20);
-    bar(cx + 20, cy - 8, cx + 80, cy + 12);
-  }
+        if (useSpriteCloud && !spriteCloudPath.empty())
+        {
+            // Draw cloud image (example size 80x40)
+            readimagefile(
+                spriteCloudPath.c_str(),
+                cx, cy,
+                cx + 80, cy + 40
+            );
+        }
+        else
+        {
+            // Fallback: rectangle clouds
+            setfillstyle(SOLID_FILL, WHITE);
+            bar(cx, cy, cx + 60, cy + 20);
+            bar(cx + 20, cy - 8, cx + 80, cy + 12);
+        }
+    }
 }
+
 
 // Change background color
 void Background::setColor(int bgColor)
