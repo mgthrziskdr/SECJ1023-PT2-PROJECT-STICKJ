@@ -14,8 +14,7 @@ Obstacle::Obstacle()
       shape(ObstacleShape::RECTANGLE), // Default shape is rectangle
       isPassed(false),                 // Player has not passed it yet
       useSprite(false)                 // No sprite used initially
-{
-}
+{}
 
 // ----------------------------------------------------
 // Full constructor
@@ -34,12 +33,12 @@ Obstacle::Obstacle(int x, int y, int w, int h, ObstacleShape s, bool passed)
   if (shape == ObstacleShape::RECTANGLE)
   {
     // Rectangle obstacles represent cactus
-    setSprite("Images/Assets/gif/cactus.gif");
+    setSprite("Images/Assets/bmp/cactus.bmp");
   }
   else if (shape == ObstacleShape::CIRCLE)
   {
     // Circle obstacles represent rock
-    setSprite("Images/Assets/gif/rock.gif");
+    setSprite("Images/Assets/bmp/rock.bmp");
   }
 }
 
