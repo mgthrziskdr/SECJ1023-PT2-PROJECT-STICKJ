@@ -1,63 +1,136 @@
 #include <graphics.h>
 #include "obstacle.h"
+#include <fstream>
 
-// Default constructor: initializes to a basic 20×20 rectangle at (0,0)
+// ----------------------------------------------------
+// Default constructor
+// ----------------------------------------------------
 Obstacle::Obstacle()
-    : xPosition(0), yPosition(0), width(20), height(20), shape(ObstacleShape::RECTANGLE), isPassed(false) {}
+    : xPosition(0),
+      yPosition(0),
+      width(20),
+      height(20),
+      shape(ObstacleShape::RECTANGLE),
+      isPassed(false),
+      useSprite(false)
+{
+}
 
-// Full constructor allowing custom position, size, shape, and passed-state
+// ----------------------------------------------------
+// Full constructor
+// ----------------------------------------------------
 Obstacle::Obstacle(int x, int y, int w, int h, ObstacleShape s, bool passed)
-    : xPosition(x), yPosition(y), width(w), height(h), shape(s), isPassed(passed) {}
+    : xPosition(x),
+      yPosition(y),
+      width(w),
+      height(h),
+      shape(s),
+      isPassed(passed),
+      useSprite(false)
+{
+    // Set sprite based on obstacle type
+    if (shape == ObstacleShape::RECTANGLE)
+    {
+        // Cactus
+        setSprite("Images/Assets/gif/cactus.gif");
+    }
+    else if (shape == ObstacleShape::CIRCLE)
+    {
+        // Rock
+        setSprite("Images/Assets/gif/rock.gif");
+    }
+}
 
-// Basic getters
+// ----------------------------------------------------
+// Sprite file checker
+// ----------------------------------------------------
+void Obstacle::setSprite(const char* path)
+{
+    std::ifstream file(path);
+    if (file.good())
+    {
+        spritePath = path;
+        useSprite = true;
+    }
+    else
+    {
+        useSprite = false;
+        spritePath = "";
+    }
+    file.close();
+}
+
+void Obstacle::disableSprite()
+{
+    useSprite = false;
+    spritePath = "";
+}
+
+// ----------------------------------------------------
+// Getters
+// ----------------------------------------------------
 int Obstacle::getX() const { return xPosition; }
 int Obstacle::getY() const { return yPosition; }
 int Obstacle::getWidth() const { return width; }
 int Obstacle::getHeight() const { return height; }
 
-// Passed-state flag access
+// ----------------------------------------------------
+// Passed flag
+// ----------------------------------------------------
 bool Obstacle::getIsPassed() const { return isPassed; }
 void Obstacle::setIsPassed(bool val) { isPassed = val; }
 
+// ----------------------------------------------------
+// Draw obstacle
+// ----------------------------------------------------
 void Obstacle::drawObstacle(float cameraX) const
 {
-  // Convert world coordinates to screen coordinates
-  int screenX = xPosition - (int)cameraX;
-  int screenY = yPosition;
+    int screenX = xPosition - (int)cameraX;
+    int screenY = yPosition;
 
-  switch (shape)
-  {
-    // Draw a filled rectangle
-    case ObstacleShape::RECTANGLE:
+    // Only cactus (rectangle) and rock (circle) use sprite
+    if (useSprite &&
+        (shape == ObstacleShape::RECTANGLE||
+         shape == ObstacleShape::CIRCLE))
     {
-      setfillstyle(SOLID_FILL, RED);
-      bar(screenX, screenY, screenX + width, screenY + height);
-      break;
+        readimagefile(
+            spritePath.c_str(),
+            screenX,
+            screenY,
+            screenX + width,
+            screenY + height
+        );
     }
-
-    // Draw a filled circle (fillellipse uses center + radii)
-    case ObstacleShape::CIRCLE:
+    else
     {
-      setfillstyle(SOLID_FILL, BLUE);
-      fillellipse(screenX + width / 2, screenY + height / 2, width / 2, height / 2);
-      break;
-    }
+        // Fallback: draw shapes
+        switch (shape)
+        {
+            case ObstacleShape::RECTANGLE:
+            {
+                setfillstyle(SOLID_FILL, RED);
+                bar(
+                    screenX,
+                    screenY,
+                    screenX + width,
+                    screenY + height
+                );
+                break;
+            }
 
-    // Draw a filled triangle defined by three points
-    case ObstacleShape::TRIANGLE:
-    {
-      setfillstyle(SOLID_FILL, GREEN);
+            case ObstacleShape::CIRCLE:
+            {
+                setfillstyle(SOLID_FILL, BLUE);
+                fillellipse(
+                    screenX + width / 2,
+                    screenY + height / 2,
+                    width / 2,
+                    height / 2
+                );
+                break;
+            }
 
-      // Each pair in this array is a vertex: (x1,y1),(x2,y2),(x3,y3)
-      int points[6] = {
-        screenX, screenY + height,
-        screenX + width / 2, screenY,
-        screenX + width, screenY + height
-      };
-      fillpoly(3, points);
-      break;
+        }
     }
-  }
-  // setfillstyle(SOLID_FILL, DARKGRAY);
-  // bar(sx, yPosition, sx + width, yPosition + height);
 }
+

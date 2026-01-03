@@ -5,8 +5,7 @@
 enum class ObstacleShape
 {
   RECTANGLE,
-  CIRCLE,
-  TRIANGLE
+  CIRCLE
 };
 
 class Obstacle
@@ -19,12 +18,19 @@ class Obstacle
     ObstacleShape shape;
     bool isPassed;
 
+    std::string spritePath; // store GIF file path
+    bool useSprite;         // if true, draw the sprite
+
   public:
     // Default constructor
     Obstacle();
 
     // Setting default value of the object from constructor
     Obstacle(int x, int y, int w, int h, ObstacleShape s = ObstacleShape::RECTANGLE, bool passed = false);
+
+     // Sprite controls
+    void setSprite(const char* path);
+    void disableSprite();
 
     // Getters for position
     int getX() const;
@@ -42,6 +48,8 @@ class Obstacle
 
     // Draws the obstacle on screen, adjusted by camera position
     void drawObstacle(float cameraX) const;
+
+
 };
 
 #endif
