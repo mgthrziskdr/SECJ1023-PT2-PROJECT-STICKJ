@@ -82,19 +82,6 @@ void Guard::updatePositionWithGroundDT(
 }
 
 // ----------------------------------------------------
-// Check collision between guard and player
-// Uses axis-aligned bounding box (AABB)
-// ----------------------------------------------------
-bool Guard::checkCollisionWithPlayer(const Player &player)
-{
-  return !(
-      player.getX() + player.getWidth() < xPosition ||
-      player.getX() > xPosition + width ||
-      player.getY() + player.getHeight() < yPosition ||
-      player.getY() > yPosition + height);
-}
-
-// ----------------------------------------------------
 // Handle collisions with a single obstacle
 // Changes direction if hitting obstacle horizontally
 // ----------------------------------------------------
@@ -127,6 +114,19 @@ void Guard::handleObstacleCollision(const Obstacle &obs)
     direction = 1;               // Reverse direction
     facing = FacingGuard::RIGHT; // Update sprite
   }
+}
+
+// ----------------------------------------------------
+// Check collision between guard and player
+// Uses axis-aligned bounding box (AABB)
+// ----------------------------------------------------
+bool Guard::checkCollisionWithPlayer(const Player &player)
+{
+  return !(
+      player.getX() + player.getWidth() < xPosition ||
+      player.getX() > xPosition + width ||
+      player.getY() + player.getHeight() < yPosition ||
+      player.getY() > yPosition + height);
 }
 
 // ----------------------------------------------------

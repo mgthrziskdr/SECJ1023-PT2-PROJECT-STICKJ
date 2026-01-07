@@ -126,14 +126,22 @@ void Player::stopMoving(float dt)
   }
 }
 
-// ----------------------------------------------------
+// -------------------------------------------------------
 // Reset all velocities (used after collisions or restart)
-// ----------------------------------------------------
+// -------------------------------------------------------
 void Player::resetVelocity()
 {
   velocityX = 0;
   velocityY = 0;
   isJumping = false;
+}
+
+// -------------------------------------------------------
+// Reset player state back to IDLE RIGHT
+// -------------------------------------------------------
+void Player::resetState()
+{
+  state = PlayerState::IDLE_RIGHT;
 }
 
 // ----------------------------------------------------

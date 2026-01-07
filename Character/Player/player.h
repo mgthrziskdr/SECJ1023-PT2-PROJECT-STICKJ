@@ -40,6 +40,7 @@ class Player : public Character
     void moveRight(float dt);
     void stopMoving(float dt);
     void resetVelocity();
+    void resetState();
     void jump();
 
     void updatePositionWithGroundDT(const Ground &ground, float dt, int worldWidth, Obstacle *obsList, int obsCount);

@@ -521,6 +521,7 @@ void Game::resetGame()
   stickJ.setX(100);
   stickJ.setY(350);
   stickJ.resetVelocity();
+  stickJ.resetState();
 
   for (int i = 0; i < numGuards; i++)
   {
