@@ -22,6 +22,8 @@ class Scoreboard
     // Draw score at top-right corner
     void drawScoreboard(int bgColor, int txtColor) const;
     void drawScoreboard(const Background &bg, int txtColor) const;
+
+    ~Scoreboard();
 };
 
 #endif

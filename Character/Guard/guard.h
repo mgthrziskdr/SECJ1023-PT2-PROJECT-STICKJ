@@ -43,6 +43,8 @@ class Guard : public Character {
     void drawCharacter(int screenX, int screenY);
 
     void reset();
+
+    ~Guard();
 };
 
 #endif

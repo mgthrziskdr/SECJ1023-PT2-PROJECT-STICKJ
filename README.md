@@ -62,7 +62,8 @@ This project focuses on manual rendering and logic instead of using a full game 
 
 ## 🗂️ Project Structure
 
-* `main.cpp` – game loop and window initialization
+* `main.cpp` – trigger a function inside game.cpp to start the game
+* `game.cpp / game.h` – the game engine that gathers all the classes and objects in order to run and compile the game
 * `player.cpp / player.h` – player movement, physics, and drawing
 * `guard.cpp / guard.h` – enemy behavior and patrol logic
 * `obstacle.cpp / bstacle.h` – platforms and collision logic

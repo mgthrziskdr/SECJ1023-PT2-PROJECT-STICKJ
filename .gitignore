@@ -43,11 +43,14 @@
 # Folders
 /vs
 /.vs
-/Audio
 /Images/Docs
+/Images/Assets/old
+/Images/Assets/gif/high
 /.vscode
 
 # Other files
 temp1
 temp2
 temp3
+/Audio/stickJ.mp3
+/Audio/stickJ-high.wav
